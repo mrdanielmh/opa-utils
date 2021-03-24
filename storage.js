@@ -8,20 +8,26 @@ async function listFiles(){
   var gcpModels = await gcp.listFiles()
   var s3Models = await s3.listFiles()
 
-  //this is lazy but it should work at low scale
-  var merged = []
-  for (var i = 0; i < gcpModels.length; i++) {
-    var currentGCP = gcpModels[i]
-    for (var ii = 0; ii < s3Models.length; ii++) {
-      var currentS3 = s3Models[ii]
-      if(currentGCP.filename === currentS3.filename){
-        currentGCP.addStorage("AWS")
-        continue
-      }
+  var merged = gcpModels.concat(s3Models)
+  var output = []
+
+  for (var i = 0; i < merged.length; i++) {
+    var current = merged[i]
+    var isUnique = true
+    for (var ii = i+1; ii < merged.length; ii++) {
+        var compare = merged[ii]
+        if(current.filename === compare.filename){
+          compare.addStorage(current.storage[0])
+          isUnique = false
+          break
+        }
     }
-    merged.push(currentGCP)
+
+    if(isUnique){
+      output.push(current)
+    }
   }
-  return merged
+  return output
 }
 
 async function getFile(id,storage){
@@ -30,7 +36,6 @@ async function getFile(id,storage){
       return gcp.getFile(id)
       break;
     case "AWS":
-    console.log("getting from S3")
       return s3.getFile(id)
       break;
     default:

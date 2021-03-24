@@ -59,16 +59,8 @@
                         <div class="col-sm-2">
                           {{#each this.storage}}
                           <a href="/playback?recording={{../filename}}&storage={{this}}">
-                            <span title="Platform">
-                              {{#ifCond this '==' 'GCP' }}
-                              <p>GCP</p>
-                              {{else}}
-                              <p>AWS</p>
-                              {{/ifCond}}
-
-
-                          </span>
-                        </a>
+                              {{this}}
+                          </a>
                           {{/each}}
                         </div>
                       </div>
