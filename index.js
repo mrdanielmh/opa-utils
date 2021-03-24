@@ -158,6 +158,13 @@ router.get("/",ensureAuthenticated(), async (req, res, next) => {
        });
 });
 
+router.get("/rdp",ensureAuthenticated(), async (req, res, next) => {
+    res.render("rdp",{
+        user: req.userContext.userinfo,
+        files: await storage.listFiles()
+       });
+});
+
 router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
   console.log("show me: "+req.query.recording)
   await storage.getFile(req.query.recording,req.query.storage)
