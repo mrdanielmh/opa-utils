@@ -1,0 +1,27 @@
+{
+  "name": "asasessioncapturetool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.3.0",
+    "@google-cloud/storage": "^5.5.0",
+    "@okta/jwt-verifier": "^1.0.1",
+    "@okta/oidc-middleware": "^4.0.2",
+    "atob": "^2.1.2",
+    "aws-sdk": "^2.866.0",
+    "createerror": "^1.3.0",
+    "date-and-time": "^0.14.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "express-session": "^1.17.1",
+    "regex": "^0.1.1"
+  }
+}
