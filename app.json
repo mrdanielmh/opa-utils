@@ -2,7 +2,7 @@
     "name": "Advanced Server Access Session Replay Tool",
     "description": "Demonstrate replaying ASA Session logs through a front end GUI using asciinema.",
     "repository": "https://github.com/mrdanielmh/asa-session-replay",
-    "logo": "https://www.okta.com/sites/all/themes/Okta/images/logos/developer/Dev_Logo-02_Large.png",
+    "logo": "https://assets.scaleft.net/img/asa-logo-white.svg",
     "keywords": ["oauth", "oidc", "okta"],
     "env": {
           "OKTA_OAUTH2_ISSUER": {
@@ -41,6 +41,14 @@
           "description": "AWS Secret Access Key",
           "value": ""
         },
+        "AWS_REGION": {
+          "description": "AWS Region",
+          "value": ""
+        },
+        "AWS_BUCKET": {
+          "description": "AWS Bucket",
+          "value": ""
+        },
         "GCP_PROJECT_ID": {
           "description": "GCP Project ID Value from Credential JSON",
           "value": ""
@@ -51,6 +59,10 @@
         },
         "GCP_PRIVATE": {
           "description": "GCP Private Key Value from Credential JSON",
+          "value": ""
+        },
+        "GCP_BUCKET": {
+          "description": "GCP Bucket",
           "value": ""
         }
     },

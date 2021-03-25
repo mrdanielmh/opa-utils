@@ -6,14 +6,14 @@ const AWS = require('aws-sdk')
 const CastModel = require('./models/cast')
 
 // Create the parameters for the bucket
-const bucketParams = { Bucket: "emea-asa-s3", Delimiter: '/' };
+const bucketParams = { Bucket: process.env.AWS_BUCKET, Delimiter: '/' };
 var fs = require('fs')
 
 AWS.config.update({
   accessKeyId:process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   correctClockSkew: true,
-  region: "us-west-2"
+  region: process.env.AWS_REGION
 })
 
 // Create S3 service object
@@ -40,7 +40,7 @@ async function listFiles() {
 
 async function getFile(id){
     try {
-      const params = { Bucket: "emea-asa-s3", Key: id };
+      const params = { Bucket: process.env.AWS_BUCKET, Key: id };
       var file = fs.createWriteStream('casts/'+id)
       await s3.getObject(params).createReadStream().pipe(file)
       return "casts/"+id

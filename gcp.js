@@ -10,7 +10,7 @@ const storage = new Storage({
     private_key:process.env.GCP_PRIVATE.replace(new RegExp("\\\\n","\g"),"\n")
   }
 });
-const bucketName = 'asasessioncaptureconverted';
+const bucketName = process.env.GCP_BUCKET;
 
 async function listFiles() {
   // Lists files in the bucket
