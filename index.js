@@ -154,7 +154,9 @@ const router = express.Router();
 router.get("/",ensureAuthenticated(), async (req, res, next) => {
     res.render("index",{
         user: req.userContext.userinfo,
-        files: await storage.listFiles()
+        files: await storage.listFiles(),
+        pageTitle: "SSH Session Recordings",
+        icon: 'ssh'
        });
 });
 
@@ -165,7 +167,9 @@ router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
   const file = new CastModel("/casts/"+req.query.recording)
     res.render("playback",{
         user: req.userContext.userinfo,
-        file: file
+        file: file,
+        pageTitle: "["+file.team+"] "+file.username,
+        icon: 'recordings'
        });
 });
 
