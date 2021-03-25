@@ -19,6 +19,10 @@ AWS.config.update({
 // Create S3 service object
 const s3 = new AWS.S3()
 
+function isConfigured(){
+  return process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_BUCKET && process.env.AWS_REGION
+}
+
 // Call S3 to obtain a list of the objects in the bucket
 async function listFiles() {
   return new Promise(resolve => {
@@ -53,3 +57,4 @@ async function getFile(id){
 
 exports.listFiles = listFiles
 exports.getFile = getFile
+exports.isConfigured = isConfigured

@@ -35,35 +35,43 @@
         },
         "AWS_ACCESS_KEY_ID": {
           "description": "AWS Access Key ID",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "AWS_SECRET_ACCESS_KEY": {
           "description": "AWS Secret Access Key",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "AWS_REGION": {
           "description": "AWS Region",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "AWS_BUCKET": {
           "description": "AWS Bucket",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "GCP_PROJECT_ID": {
           "description": "GCP Project ID Value from Credential JSON",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "GCP_EMAIL": {
           "description": "GCP Email Value from Credential JSON",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "GCP_PRIVATE": {
           "description": "GCP Private Key Value from Credential JSON",
-          "value": ""
+          "value": "",
+          "required": false
         },
         "GCP_BUCKET": {
           "description": "GCP Bucket",
-          "value": ""
+          "value": "",
+          "required": false
         }
     },
     "success_url": "/"

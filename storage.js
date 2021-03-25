@@ -5,29 +5,42 @@ const s3 = require('./s3')
 //TODO parameterize this so it doesn't need both providers
 
 async function listFiles(){
-  var gcpModels = await gcp.listFiles()
-  var s3Models = await s3.listFiles()
+  var merged = []
+  var sources = 0
 
-  var merged = gcpModels.concat(s3Models)
-  var output = []
-
-  for (var i = 0; i < merged.length; i++) {
-    var current = merged[i]
-    var isUnique = true
-    for (var ii = i+1; ii < merged.length; ii++) {
-        var compare = merged[ii]
-        if(current.filename === compare.filename){
-          compare.addStorage(current.storage[0])
-          isUnique = false
-          break
-        }
-    }
-
-    if(isUnique){
-      output.push(current)
-    }
+  if(gcp.isConfigured()){
+    merged = merged.concat(await gcp.listFiles())
+    sources++
   }
-  return output
+  if(s3.isConfigured()){
+    merged = merged.concat(await s3.listFiles())
+    sources++
+  }
+
+  var output = []
+  //we only want to run this source merge if we have more than one
+  if(sources >1){
+    for (var i = 0; i < merged.length; i++) {
+      var current = merged[i]
+      var isUnique = true
+      for (var ii = i+1; ii < merged.length; ii++) {
+          var compare = merged[ii]
+          if(current.filename === compare.filename){
+            compare.addStorage(current.storage[0])
+            isUnique = false
+            break
+          }
+      }
+
+      if(isUnique){
+        output.push(current)
+      }
+    }
+    return output
+  } else {
+    return merged
+  }
+
 }
 
 async function getFile(id,storage){

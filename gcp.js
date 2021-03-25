@@ -12,6 +12,10 @@ const storage = new Storage({
 });
 const bucketName = process.env.GCP_BUCKET;
 
+function isConfigured(){
+  return process.env.GCP_PROJECT_ID && process.env.GCP_EMAIL && process.env.GCP_PRIVATE && process.env.GCP_BUCKET
+}
+
 async function listFiles() {
   // Lists files in the bucket
   const [files] = await storage.bucket(bucketName).getFiles()
@@ -37,3 +41,4 @@ async function getFile(id){
 
 exports.listFiles = listFiles
 exports.getFile = getFile
+exports.isConfigured = isConfigured
