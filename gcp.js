@@ -3,7 +3,13 @@ const {Storage} = require('@google-cloud/storage');
 const CastModel = require('./models/cast')
 
 // Creates a client
-const storage = new Storage();
+const storage = new Storage({
+  projectId:process.env.GCP_PROJECT_ID,
+  credentials:{
+    client_email:process.env.GCP_EMAIL,
+    private_key:process.env.GCP_PRIVATE.replace(new RegExp("\\\\n","\g"),"\n")
+  }
+});
 const bucketName = 'asasessioncaptureconverted';
 
 async function listFiles() {

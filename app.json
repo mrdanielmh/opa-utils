@@ -1,0 +1,58 @@
+{
+    "name": "Advanced Server Access Session Replay Tool",
+    "description": "Demonstrate replaying ASA Session logs through a front end GUI using asciinema.",
+    "repository": "https://github.com/mrdanielmh/asa-session-replay",
+    "logo": "https://www.okta.com/sites/all/themes/Okta/images/logos/developer/Dev_Logo-02_Large.png",
+    "keywords": ["oauth", "oidc", "okta"],
+    "env": {
+          "OKTA_OAUTH2_ISSUER": {
+            "description": "The issuer URI of your authorization server, this can be either the tenant itself https://<yourname>.okta.com or a API Access Management authorization server https://<yourname>.okta.com/oauth2/<serverid>",
+            "value": ""
+        },
+        "OKTA_OAUTH2_CLIENT_ID_WEB": {
+          "description": "This client id of your OIDC application in Okta.",
+          "value": ""
+        },
+        "OKTA_OAUTH2_CLIENT_SECRET_WEB":{
+          "description": "The client secret of your OIDC application in Okta.",
+          "value": ""
+        },
+        "SESSION_SECRET":{
+            "description": "A secret key for session data.",
+            "generator": "secret"
+        },
+        "SCOPES": {
+            "description": "OAuth scopes to request on login",
+            "value": "openid profile email"
+        },
+        "BASE_URI": {
+          "description": "The URI which will be used to host the application, normally https://<your app name>.herokuapp.com",
+          "value": ""
+        },
+        "TOKEN_AUD": {
+          "description": "The AUD claim of the user token.",
+          "value": "api://default"
+        },
+        "AWS_ACCESS_KEY_ID": {
+          "description": "AWS Access Key ID",
+          "value": ""
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "description": "AWS Secret Access Key",
+          "value": ""
+        },
+        "GCP_PROJECT_ID": {
+          "description": "GCP Project ID Value from Credential JSON",
+          "value": ""
+        },
+        "GCP_EMAIL": {
+          "description": "GCP Email Value from Credential JSON",
+          "value": ""
+        },
+        "GCP_PRIVATE": {
+          "description": "GCP Private Key Value from Credential JSON",
+          "value": ""
+        }
+    },
+    "success_url": "/"
+  }
