@@ -27,16 +27,16 @@ async function listFiles() {
   return models;
 }
 
-async function getFile(id){
+async function getFile(id,destination){
   const options = {
     // The path to which the file should be downloaded, e.g. "./file.txt"
-    destination: "casts/"+id,
+    destination: destination,
   };
 
   // Downloads the file
   await storage.bucket(bucketName).file(id).download(options);
 
-  return "casts/"+id
+  return destination
 }
 
 exports.listFiles = listFiles

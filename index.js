@@ -6,6 +6,8 @@ var createError = require('createerror');
 const ExpressOIDC = require("@okta/oidc-middleware").ExpressOIDC;
 const CastModel = require('./models/cast')
 const storage = require('./storage')
+const fs = require('fs')
+const fsp = require('fs/promises')
 
 const PORT = process.env.PORT || "3000";
 
@@ -87,6 +89,16 @@ const oktaJwtVerifier = new OktaJwtVerifier({
   clientId: process.env.OKTA_OAUTH2_CLIENT_ID_WEB,
 });
 
+fs.access('casts',fs.constants.F_OK,(err)=>{
+  if(err){
+    fs.mkdir('casts',{recursive:false},(err)=>{
+      if(err) throw err
+    })
+  } else{
+    console.log("exists")
+  }
+})
+
 app.get("/logout", (req, res) => {
   if(req.userContext){
     let protocol = "http"
@@ -98,6 +110,8 @@ app.get("/logout", (req, res) => {
     }
     const tokenSet = req.userContext.tokens;
     const id_token_hint = tokenSet.id_token
+    //maybe rewrite to github.com/bruce/node-temp
+    fs.rmdirSync("casts/"+req.session.id,{recursive:true, maxRetries: 1})
     req.session.destroy();
     if(id_token_hint){
       res.redirect(process.env.OKTA_OAUTH2_ISSUER+'/v1/logout?id_token_hint='
@@ -162,9 +176,15 @@ router.get("/",ensureAuthenticated(), async (req, res, next) => {
 
 router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
   console.log("show me: "+req.query.recording)
-  await storage.getFile(req.query.recording,req.query.storage)
 
-  const file = new CastModel("/casts/"+req.query.recording)
+  try{
+    await fsp.access("casts/"+req.session.id,fs.constants.F_OK)
+  } catch (err) {
+    await fsp.mkdir("casts/"+req.session.id,{recursive:false})
+  }
+  const file = new CastModel("casts/"+req.session.id+"/"+req.query.recording)
+  await storage.getFile(req.query.recording,req.query.storage,file.filename)
+
     res.render("playback",{
         user: req.userContext.userinfo,
         file: file,
@@ -173,9 +193,9 @@ router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
        });
 });
 
-router.get("/casts/:id",ensureAuthenticated(), async (req, res, next) => {
+router.get("/casts/:session/:id",ensureAuthenticated(), async (req, res, next) => {
   console.log("files "+req.params.id)
-   res.download("casts/"+req.params.id);
+  res.download("casts/"+req.params.session+"/"+req.params.id);
 })
 
 app.use(router)

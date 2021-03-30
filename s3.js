@@ -42,12 +42,12 @@ async function listFiles() {
   })
   }
 
-async function getFile(id){
+async function getFile(id,destination){
     try {
       const params = { Bucket: process.env.AWS_BUCKET, Key: id };
-      var file = fs.createWriteStream('casts/'+id)
+      var file = fs.createWriteStream(destination)
       await s3.getObject(params).createReadStream().pipe(file)
-      return "casts/"+id
+      return destination
     } catch (err) {
         console.log("Error, object not downloaded", err);
         return null

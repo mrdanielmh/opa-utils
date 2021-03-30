@@ -43,13 +43,13 @@ async function listFiles(){
 
 }
 
-async function getFile(id,storage){
+async function getFile(id,storage,destination){
   switch(storage){
     case  "GCP":
-      return gcp.getFile(id)
+      return gcp.getFile(id,destination)
       break;
     case "AWS":
-      return s3.getFile(id)
+      return s3.getFile(id,destination)
       break;
     default:
       console.console.error("Unknown handler for storage");
