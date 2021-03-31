@@ -48,7 +48,7 @@ You will need to create an IAM user with the AmazonS3FullAccess policy. Once you
 
 * AWS_ACCESS_KEY_ID - AWS Access Key
 * AWS_BUCKET - AWS Bucket Name
-* AWS_REGION - AWS Bucket Region
+* AWS_REGION - AWS Bucket Region (eg: us-west-2)
 * AWS_SECRET_ACCESS_KEY - AWS Secret Access Key
 
 ### Required
