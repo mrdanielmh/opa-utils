@@ -78,8 +78,11 @@ Click Deploy App
 
 You should now be able to open your Heroku application and log in using your Okta user. From here we now need to add some session capture files into your chosen bucket. These files need to be in a .cast format. We will need to export the .asa session files into .cast.
 
+
+
 # Thanks
 
 Huge thanks to Andy March who helped bring this to life!
 
-Andy March (https://github.com/andymarch)
+Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
+Kyle Robinson - Principal Security Specialist, Okta
