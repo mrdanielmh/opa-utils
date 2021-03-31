@@ -78,6 +78,51 @@ Click Deploy App
 
 You should now be able to open your Heroku application and log in using your Okta user. From here we now need to add some session capture files into your chosen bucket. These files need to be in a .cast format. We will need to export the .asa session files into .cast.
 
+### Automate Session Conversion into AWS S3 Bucket
+
+We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your AWS S3 Bucket.
+
+You will need to mount your AWS S3 Bucket to your file system.
+
+* Please copy the aws_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/
+* Run: sudo apt-get update
+* Run: sudo apt install s3fs awscli inotify-tools -y
+* Run: sudo vi /etc/.s3fs-creds - AWS_ACCESS_KEY_ID:AWS_SECRET_ACCESS_KEY - Where AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are the values from the AWS IAM user we created previously
+* Run: sudo chmod 600 /etc/.s3fs-creds
+* Run: cd mnt
+* Run: sudo mkdir aws
+* Run: cd aws
+* Run: sudo mkdir bucketname - Where bucketname is the name of your AWS S3 bucket
+* Run: sudo vi /etc/fuse.conf - uncomment user_allow_other
+* Run: sudo s3fs -o allow_other,nonempty,passwd_file=/etc/.s3fs-creds bucketname /mnt/aws/bucketname - where bucketname is the name of your AWS S3 bucket
+* Run: df -h - This should show your new mounted filesystem
+
+Set /mnt/aws/bucketname to mount on restart
+
+* Run: sudo vi /etc/fstab
+* Append the following:
+* s3fs#bucketname /mnt/aws/bucketname fuse _netdev,allow_other,nonempty,passwd_file=/etc/.s3fs-creds 0 0
+
+Create systemd script for startup
+
+* Run: cd /etc/systemd/system/
+* Run: sudo vi convertlogs.service
+* Append following:
+
+# [Unit]
+# Description=Watch for new ASA session logs and convert then.
+# [Service]
+# ExecStart=/etc/sft/convertlogs.sh
+# Restart=always
+# RestartSec=5s
+# [Install]
+# WantedBy=multi-user.target
+
+* Save and quit vi
+* Run: sudo systemctl enable convertlogs.service
+
+
+
 
 
 # Thanks
