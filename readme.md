@@ -46,10 +46,12 @@ You will be prompted to entry some variables:
 
 ### Only Required if integrating with an AWS S3 Bucket
 
-* AWS_ACCESS_KEY_ID -
-* AWS_BUCKET -
-* AWS_REGION -  
-* AWS_SECRET_ACCESS_KEY -
+You will need to create an IAM user with the AmazonS3FullAccess policy. Once you have created this user you will have access to the ACCESS KEY ID and SECRET ACCESS KEY.
+
+* AWS_ACCESS_KEY_ID - AWS Access Key
+* AWS_BUCKET - AWS Bucket Name
+* AWS_REGION - AWS Bucket Region
+* AWS_SECRET_ACCESS_KEY - AWS Secret Access Key
 
 ### Required
 
@@ -57,25 +59,26 @@ You will be prompted to entry some variables:
 
 ### Only Required if integrating with an GCP Bucket
 
-* GCP_BUCKET -
-* GCP_EMAIL -
-* GCP_PRIVATE -
-* GCP_PROJECT_ID -
+You will need to create an IAM User who has access to Cloud Storage. You can then download the credential JSON file and extract the GCP_EMAIL and GCP_PRIVATE values.
+
+* GCP_BUCKET - GCP Bucket Name
+* GCP_EMAIL - Extracted from Credential JSON
+* GCP_PRIVATE - Extracted from Credential JSON (Certificate)
+* GCP_PROJECT_ID - GCP Project Name
 
 ### Required
 
 * OKTA_OAUTH2_CLIENT_ID_WEB - The client ID of your OIDC application in Okta
 * OKTA_OAUTH2_CLIENT_SECRET_WEB - The client secret of your OIDC application in Okta.
-* OKTA_OAUTH2_ISSUER -
+* OKTA_OAUTH2_ISSUER - Issuer URI from Okta Authorization Server (eg: https://tenantname.oktapreview.com/oauth2/default)
 * SCOPES - openid profile email
 * TOKEN_AUD - api://default
 
 Click Deploy App
 
-
 ### Status
 
-You should now be able to open your Heroku application and log in using your Okta user. From here we now need to
+You should now be able to open your Heroku application and log in using your Okta user. From here we now need to add some session capture files into your chosen bucket. These files need to be in a .cast format. We will need to export the .asa session files into .cast.
 
 # Thanks
 
