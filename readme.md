@@ -109,14 +109,14 @@ Create systemd script for startup
 * Run: sudo vi convertlogs.service
 * Append following:
 
-# [Unit]
-# Description=Watch for new ASA session logs and convert then.
-# [Service]
-# ExecStart=/etc/sft/convertlogs.sh
-# Restart=always
-# RestartSec=5s
-# [Install]
-# WantedBy=multi-user.target
+[Unit]
+Description=Watch for new ASA session logs and convert then.
+[Service]
+ExecStart=/etc/sft/convertlogs.sh
+Restart=always
+RestartSec=5s
+[Install]
+WantedBy=multi-user.target
 
 * Save and quit vi
 * Run: sudo systemctl enable convertlogs.service
