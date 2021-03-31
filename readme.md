@@ -156,5 +156,5 @@ WantedBy=multi-user.target
 
 Huge thanks to Andy March and Kyle Robinson who helped bring this to life!
 
-Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
-Kyle Robinson - Principal Security Specialist, Okta
+* Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
+* Kyle Robinson - Principal Security Specialist, Okta
