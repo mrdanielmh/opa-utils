@@ -80,9 +80,7 @@ You should now be able to open your Heroku application and log in using your Okt
 
 ### Automate Session Conversion into AWS S3 Bucket
 
-We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your AWS S3 Bucket.
-
-You will need to mount your AWS S3 Bucket to your file system.
+We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your AWS S3 Bucket. You will need to mount your AWS S3 Bucket to your file system.
 
 * Please copy the aws_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/
 * Run: sudo apt-get update
@@ -106,23 +104,50 @@ Set /mnt/aws/bucketname to mount on restart
 Create systemd script for startup
 
 * Run: cd /etc/systemd/system/
-* Run: sudo vi convertlogs.service
+* Run: sudo vi aws_convertlogs.service
 * Append following:
 
 [Unit]
 Description=Watch for new ASA session logs and convert then.
 [Service]
-ExecStart=/etc/sft/convertlogs.sh
+ExecStart=/etc/sft/awws_convertlogs.sh
 Restart=always
 RestartSec=5s
 [Install]
 WantedBy=multi-user.target
 
 * Save and quit vi
-* Run: sudo systemctl enable convertlogs.service
+* Run: sudo systemctl enable aws_convertlogs.service
 
+When your gateway is restarted, the filesystem should mount your bucket folder and the script will automatically start.
 
+### Automate Session Conversion into GCP Bucket
 
+We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your GCP bucket. You will need to leverage gsutil to copy files to the GCP bucket.
+
+* Please copy the gcp_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/
+* Run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+* Run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+* Run: sudo apt-get update
+* Run: sudo apt-get install google-cloud-sdk
+
+Create systemd script for startup
+
+* Run: cd /etc/systemd/system/
+* Run: sudo vi gcp_convertlogs.service
+* Append following:
+
+[Unit]
+Description=Watch for new ASA session logs and convert then.
+[Service]
+ExecStart=/etc/sft/gcp_convertlogs.sh
+Restart=always
+RestartSec=5s
+[Install]
+WantedBy=multi-user.target
+
+* Save and quit vi
+* Run: sudo systemctl enable gcp_convertlogs.service
 
 
 # Thanks
