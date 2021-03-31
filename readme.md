@@ -11,8 +11,8 @@ When launching the application the user will be redirected to Okta for authentic
 Deploying to Heroku is the fastest way to get started with this application. The button below will setup a Heroku application leveraging this codebase. You will need to configure some extra things to complete the setup;
 
 Okta application
-AWS S3 bucket
-GCP bucket
+AWS S3 bucket & Associated AuthN
+GCP bucket & Associated AuthN
 
 ## Setup
 
@@ -40,8 +40,45 @@ Click the Deploy Button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+You will be prompted to entry some variables:
 
+* App Name: asareplay-firstname-lastname
+
+### Only Required if integrating with an AWS S3 Bucket
+
+* AWS_ACCESS_KEY_ID -
+* AWS_BUCKET -
+* AWS_REGION -  
+* AWS_SECRET_ACCESS_KEY -
+
+### Required
+
+* BASE_URI - The URI which will be used to host the application, https://asareplay-firstname-lastname.herokuapp.com
+
+### Only Required if integrating with an GCP Bucket
+
+* GCP_BUCKET -
+* GCP_EMAIL -
+* GCP_PRIVATE -
+* GCP_PROJECT_ID -
+
+### Required
+
+* OKTA_OAUTH2_CLIENT_ID_WEB - The client ID of your OIDC application in Okta
+* OKTA_OAUTH2_CLIENT_SECRET_WEB - The client secret of your OIDC application in Okta.
+* OKTA_OAUTH2_ISSUER -
+* SCOPES - openid profile email
+* TOKEN_AUD - api://default
+
+Click Deploy App
+
+
+### Status
+
+You should now be able to open your Heroku application and log in using your Okta user. From here we now need to
 
 # Thanks
+
+Huge thanks to Andy March who helped bring this to life!
 
 Andy March (https://github.com/andymarch)
