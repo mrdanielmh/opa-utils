@@ -4,6 +4,8 @@ This project allows you to replay ASA Session Captures from a front end.
 
 When launching the application the user will be redirected to Okta for authentication. Once authenticated the user will be shown a list of available sessions to replay. The application currently supports .cast files that exist within an AWS S3 or GCP bucket.
 
+Please note: this is an open source solution developed on top of the Okta solution. It is not supported by Okta or part of the Okta solution.
+
 ## Running on Heroku
 
 Deploying to Heroku is the fastest way to get started with this application. The button below will setup a Heroku application leveraging this codebase. You will need to configure some extra things to complete the setup;
