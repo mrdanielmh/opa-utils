@@ -110,7 +110,7 @@ Create systemd script for startup
 [Unit]
 Description=Watch for new ASA session logs and convert then.
 [Service]
-ExecStart=/etc/sft/awws_convertlogs.sh
+ExecStart=/etc/sft/aws_convertlogs.sh
 Restart=always
 RestartSec=5s
 [Install]
