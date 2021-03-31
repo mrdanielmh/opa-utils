@@ -82,7 +82,7 @@ You should now be able to open your Heroku application and log in using your Okt
 
 # Thanks
 
-Huge thanks to Andy March who helped bring this to life!
+Huge thanks to Andy March and Kyle Robinson who helped bring this to life!
 
 Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
 Kyle Robinson - Principal Security Specialist, Okta
