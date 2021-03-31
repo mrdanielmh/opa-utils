@@ -34,7 +34,14 @@ Step by Step:
 
 * Assign the Application to your Okta User who will replay sessions.
 
+### Deploy Application to Heroku
+
+Click the Deploy Button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-Credits: Andy March (https://github.com/andymarch)
+
+
+# Thanks
+
+Andy March (https://github.com/andymarch)
