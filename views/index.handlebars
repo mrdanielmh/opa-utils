@@ -10,7 +10,13 @@
     width: 100%;
   }
 
-  th, td {
+  th {
+    text-align: left;
+    padding: 8px;
+  }
+
+  td {
+    font-size: 15px;
     text-align: left;
     padding: 8px;
   }
@@ -25,7 +31,7 @@
   <tr>
   <th>Date & Time</th>
   <th>Username</th>
-  <th>Launch</th>
+  <th>Replay</th>
   </tr>
   </thead>
 
@@ -43,7 +49,7 @@
   </td>
   <td>
   {{#each this.storage}}
-    <a href="/playback?recording={{../filename}}&storage={{this}}">
+    <i class="fas fa-video"></i> Replay From:<a href="/playback?recording={{../filename}}&storage={{this}}">
       {{this}}
     </a>
       {{/each}}
