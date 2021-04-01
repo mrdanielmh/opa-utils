@@ -73,7 +73,7 @@
 <div id="content">
   <div class="side-nav">
     <div class="side-nav--header">
-      <a class="side-nav--header--link active" href="#"><img alt="Advanced Server Access" src="https://assets.scaleft.net/img/asa-logo-blue.svg">
+      <a class="side-nav--header--link active" href="/"><img alt="Advanced Server Access" src="https://assets.scaleft.net/img/asa-logo-blue.svg">
       <h3>ASA Session<br>
       Replay Tool</h3></a>
     </div>
@@ -106,10 +106,17 @@
     <div class="sft-main" style="position: relative;">
       <div class="dropdown btn-group sft-dropdown dropdown-custom-menu">
         <div>
-          <a class="nav-item" href="#" style="padding-right: 0px;" tabindex="0"><span id="user_menu"><svg aria-hidden="true" class="svg-inline--fa fa-user fa-w-16" data-icon="user" data-prefix="fas" role="img" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9.99998 10C12.5665 10 14.6465 7.93729 14.6465 5.39218C14.6465 2.84708 12.5665 0.784363 9.99998 0.784363C7.43349 0.784363 5.35344 2.84708 5.35344 5.39218C5.35344 7.93729 7.43349 10 9.99998 10ZM13.2526 11.152H12.6463C11.8404 11.5191 10.9438 11.7279 9.99998 11.7279C9.05615 11.7279 8.16314 11.5191 7.35363 11.152H6.7474C4.05386 11.152 1.86853 13.3191 1.86853 15.9902V17.4877C1.86853 18.4417 2.649 19.2156 3.61098 19.2156H16.389C17.351 19.2156 18.1314 18.4417 18.1314 17.4877V15.9902C18.1314 13.3191 15.9461 11.152 13.2526 11.152Z" fill="currentColor"></path></svg><span id="userName" >{{user.given_name}} {{user.family_name}}</span>&nbsp;
-          <svg aria-hidden="true" class="svg-inline--fa fa-chevron-down fa-w-14" data-icon="chevron-down" data-prefix="fas" role="img" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 207.029 381.476 L 12.686 187.132 c -9.373 -9.373 -9.373 -24.569 0 -33.941 l 22.667 -22.667 c 9.357 -9.357 24.522 -9.375 33.901 -0.04 L 224 284.505 l 154.745 -154.021 c 9.379 -9.335 24.544 -9.317 33.901 0.04 l 22.667 22.667 c 9.373 9.373 9.373 24.569 0 33.941 L 240.971 381.476 c -9.373 9.372 -24.569 9.372 -33.942 0 Z" fill="currentColor"></path></svg></span></a>
+          <!-- <a class="nav-item" href="#" style="padding-right: 0px;" tabindex="0"> -->
+            <span id="user_menu">
+            <svg aria-hidden="true" class="svg-inline--fa fa-user fa-w-16" data-icon="user" data-prefix="fas" role="img" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.99998 10C12.5665 10 14.6465 7.93729 14.6465 5.39218C14.6465 2.84708 12.5665 0.784363 9.99998 0.784363C7.43349 0.784363 5.35344 2.84708 5.35344 5.39218C5.35344 7.93729 7.43349 10 9.99998 10ZM13.2526 11.152H12.6463C11.8404 11.5191 10.9438 11.7279 9.99998 11.7279C9.05615 11.7279 8.16314 11.5191 7.35363 11.152H6.7474C4.05386 11.152 1.86853 13.3191 1.86853 15.9902V17.4877C1.86853 18.4417 2.649 19.2156 3.61098 19.2156H16.389C17.351 19.2156 18.1314 18.4417 18.1314 17.4877V15.9902C18.1314 13.3191 15.9461 11.152 13.2526 11.152Z" fill="currentColor">
+          </path></svg>
+
+          <span id="userName" >{{user.given_name}} {{user.family_name}}</span>&nbsp;
+          <!-- <svg aria-hidden="true" class="svg-inline--fa fa-chevron-down fa-w-14" data-icon="chevron-down" data-prefix="fas" role="img" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 207.029 381.476 L 12.686 187.132 c -9.373 -9.373 -9.373 -24.569 0 -33.941 l 22.667 -22.667 c 9.357 -9.357 24.522 -9.375 33.901 -0.04 L 224 284.505 l 154.745 -154.021 c 9.379 -9.335 24.544 -9.317 33.901 0.04 l 22.667 22.667 c 9.373 9.373 9.373 24.569 0 33.941 L 240.971 381.476 c -9.373 9.372 -24.569 9.372 -33.942 0 Z" fill="currentColor">
+          </path>
+        </svg></span></a> -->
 
         </div>
       </div>
@@ -120,7 +127,8 @@
           <h2 class="sft-title">
             {{#ifCond icon '===' 'user'}}
             <svg aria-hidden="true" class="svg-inline--fa fa-user fa-w-16" data-icon="user" data-prefix="fas" role="img" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 9.99998 10 C 12.5665 10 14.6465 7.93729 14.6465 5.39218 C 14.6465 2.84708 12.5665 0.784363 9.99998 0.784363 C 7.43349 0.784363 5.35344 2.84708 5.35344 5.39218 C 5.35344 7.93729 7.43349 10 9.99998 10 Z M 13.2526 11.152 H 12.6463 C 11.8404 11.5191 10.9438 11.7279 9.99998 11.7279 C 9.05615 11.7279 8.16314 11.5191 7.35363 11.152 H 6.7474 C 4.05386 11.152 1.86853 13.3191 1.86853 15.9902 V 17.4877 C 1.86853 18.4417 2.649 19.2156 3.61098 19.2156 H 16.389 C 17.351 19.2156 18.1314 18.4417 18.1314 17.4877 V 15.9902 C 18.1314 13.3191 15.9461 11.152 13.2526 11.152 Z" fill="currentColor"></path></svg>
+          <path d="M 9.99998 10 C 12.5665 10 14.6465 7.93729 14.6465 5.39218 C 14.6465 2.84708 12.5665 0.784363 9.99998 0.784363 C 7.43349 0.784363 5.35344 2.84708 5.35344 5.39218 C 5.35344 7.93729 7.43349 10 9.99998 10 Z M 13.2526 11.152 H 12.6463 C 11.8404 11.5191 10.9438 11.7279 9.99998 11.7279 C 9.05615 11.7279 8.16314 11.5191 7.35363 11.152 H 6.7474 C 4.05386 11.152 1.86853 13.3191 1.86853 15.9902 V 17.4877 C 1.86853 18.4417 2.649 19.2156 3.61098 19.2156 H 16.389 C 17.351 19.2156 18.1314 18.4417 18.1314 17.4877 V 15.9902 C 18.1314 13.3191 15.9461 11.152 13.2526 11.152 Z" fill="currentColor"></path>
+        </svg>
             {{/ifCond}}
             {{#ifCond icon '===' 'recordings'}}
               <i class="fas fa-video"></i>
@@ -145,7 +153,7 @@
   </div>
 </div>
 
-<script>
+<!-- <script>
 var modalBtns = [...document.querySelectorAll(".button")];
 modalBtns.forEach(function(btn){
 btn.onclick = function() {
@@ -167,7 +175,7 @@ if (event.target.className === "modal") {
   event.target.style.display = "none";
 }
 }
-</script>
+</script> -->
 <script src="/static/js/asciinema-player.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
 </script>

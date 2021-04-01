@@ -3,7 +3,61 @@
   <div class="row">
     <a href="/" class="btn btn-primary">Refresh</a>
   </div>
-  <div class="row">
+<br>
+  <style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {background-color: #f2f2f2;}
+  </style>
+
+  <table>
+
+  <!-- Below are the column headers -->
+  <thead>
+  <tr>
+  <th>Date & Time</th>
+  <th>Username</th>
+  <th>Launch</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <!-- This "each" is the beginning of the loop -->
+  {{#each files}}
+
+  <!-- Below is a table row and cells, with the question references (starting AFTER the rows container)-->
+  <tr>
+  <td>
+    <i class="fas fa-calendar-week"></i>&nbsp{{this.date}} {{this.time}}
+  </td>
+  <td>
+    <i class="fas fa-user"></i>&nbsp{{this.username}}
+  </td>
+  <td>
+  {{#each this.storage}}
+    <a href="/playback?recording={{../filename}}&storage={{this}}">
+      {{this}}
+    </a>
+      {{/each}}
+  </td>
+
+  </tr>
+
+  <!-- This is the end of the loop-->
+  {{/each}}
+
+  </tbody>
+  </table>
+
+  <!-- <div class="row">
     <div class="col-sm-12">
       <div class="sft-content">
         <div class="sft-list" id="sft-list-server">
@@ -13,9 +67,13 @@
               <!-- <div class="ods-fieldset-flex">
                 <input class="ods-text-input sft-list-filter" id="auto-id--wcxz58hs9l" placeholder="find by name..." type="text" value="">
               </div> -->
-            </fieldset>
-          </div>
-          <div class="sft-list-body">
+            <!-- </fieldset> -->
+
+
+
+
+          <!-- </div> -->
+          <!-- <div class="sft-list-body">
             <div class="sft-list-body__header" style="position: relative;">
               <div class="row">
                 <div class="col-sm-6">
@@ -71,14 +129,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
 
             <!-- The Modal 1-->
-              <div id="modalOne" class="modal">
+              <!-- <div id="modalOne" class="modal"> -->
 
               <!-- Modal content -->
-              <div class="modal-content">
+            <!--  <div class="modal-content">
               <span class="close">&times;</span>
 
             </div>
@@ -94,5 +152,5 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
