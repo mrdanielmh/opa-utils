@@ -153,6 +153,11 @@ WantedBy=multi-user.target
 * Save and quit vi
 * Run: sudo systemctl enable gcp_convertlogs.service
 
+# Testing
+
+* Log into a server that has been configured to have it's session captured.
+* Refresh Session Replay Tool - You should see your latest session
+* Replay by clicking on the AWS or GCP link
 
 # Thanks
 
