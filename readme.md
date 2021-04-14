@@ -94,17 +94,18 @@ We will use a script that will detect when a new file is written to /var/log/sft
 * Run: cd mnt
 * Run: sudo mkdir aws
 * Run: cd aws
-* Run: sudo mkdir bucketname - Where bucketname is the name of your AWS S3 bucket
+* Run: sudo mkdir {bucketname} - Where bucketname is the name of your AWS S3 bucket
 * Run: sudo vi /etc/fuse.conf - uncomment user_allow_other
-* Run: sudo s3fs -o allow_other,nonempty,passwd_file=/etc/.s3fs-creds bucketname /mnt/aws/bucketname - where bucketname is the name of your AWS S3 bucket
+* Run: sudo s3fs -o allow_other,nonempty,passwd_file=/etc/.s3fs-creds {bucketnam} /mnt/aws/{bucketname} - where {bucketname} is the name of your AWS S3 bucket
 * Run: df -h - This should show your new mounted filesystem
 * NOTE: If this doesn't work, please remove S3FS, reinstall and complete the instructions above again.
 
-Set /mnt/aws/bucketname to mount on restart
+Set /mnt/aws/{bucketname} to mount on restart
 
 * Run: sudo vi /etc/fstab
 * Append the following:
-* s3fs#bucketname /mnt/aws/bucketname fuse _netdev,allow_other,nonempty,passwd_file=/etc/.s3fs-creds 0 0
+* s3fs#bucketname /mnt/aws/{bucketname} fuse _netdev,allow_other,nonempty,passwd_file=/etc/.s3fs-creds 0 0
+* Where {bucketname} = your AWS S3 bucketname
 
 Create systemd script for startup
 
