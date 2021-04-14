@@ -91,11 +91,12 @@ We will use a script that will detect when a new file is written to /var/log/sft
 * Run: sudo vi /etc/.s3fs-creds
 * Append: AWS_ACCESS_KEY_ID:AWS_SECRET_ACCESS_KEY - Where AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are the values from the AWS IAM user we created previously
 * Run: sudo chmod 600 /etc/.s3fs-creds
-* Run: cd mnt
+* Run: cd /mnt
 * Run: sudo mkdir aws
 * Run: cd aws
 * Run: sudo mkdir {bucketname} - Where bucketname is the name of your AWS S3 bucket
-* Run: sudo vi /etc/fuse.conf - uncomment user_allow_other
+* Run: sudo vi /etc/fuse.conf 
+* Uncomment user_allow_other
 * Run: sudo s3fs -o allow_other,nonempty,passwd_file=/etc/.s3fs-creds {bucketnam} /mnt/aws/{bucketname} - where {bucketname} is the name of your AWS S3 bucket
 * Run: df -h - This should show your new mounted filesystem
 * NOTE: If this doesn't work, please remove S3FS, reinstall and complete the instructions above again.
@@ -113,14 +114,16 @@ Create systemd script for startup
 * Run: sudo vi aws_convertlogs.service
 * Append following:
 
-[Unit]
+'''[Unit]
 Description=Watch for new ASA session logs and convert then.
+
 [Service]
 ExecStart=/etc/sft/aws_convertlogs.sh
 Restart=always
 RestartSec=5s
+
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target'''
 
 * Save and quit vi
 * Run: sudo systemctl enable aws_convertlogs.service
