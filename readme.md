@@ -87,7 +87,7 @@ We will use a script that will detect when a new file is written to /var/log/sft
 * Please copy the aws_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/
 * Run: sudo chmod +x /etc/sft/aws_convertlogs.sh
 * Run: sudo apt-get update
-* Run: sudo apt install s3fs awscli inotify-tools -y
+* Run: sudo apt install s3fs awscli inotify-tools scaleft-client-tools -y
 * Run: sudo vi /etc/.s3fs-creds
 * Append: AWS_ACCESS_KEY_ID:AWS_SECRET_ACCESS_KEY - Where AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are the values from the AWS IAM user we created previously
 * Run: sudo chmod 600 /etc/.s3fs-creds
