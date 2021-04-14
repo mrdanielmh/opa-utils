@@ -114,7 +114,8 @@ Create systemd script for startup
 * Run: sudo vi aws_convertlogs.service
 * Append following:
 
-'''[Unit]
+```
+[Unit]
 Description=Watch for new ASA session logs and convert then.
 
 [Service]
@@ -123,7 +124,9 @@ Restart=always
 RestartSec=5s
 
 [Install]
-WantedBy=multi-user.target'''
+WantedBy=multi-user.target
+```
+
 
 * Save and quit vi
 * Run: sudo systemctl enable aws_convertlogs.service
