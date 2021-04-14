@@ -1,8 +1,7 @@
-#AWS
-!/bin/bash
-#
+#!/bin/bash
+
 # Watch for new session logs and convert them to asciinema.
-#
+
 WATCHPATH="/var/log/sft/sessions"
 DESTPATH="/mnt/aws/bucketname"
 process-logs(){
