@@ -141,7 +141,7 @@ We will use a script that will detect when a new file is written to /var/log/sft
 * Run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 * Run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 * Run: sudo apt-get update
-* Run: sudo apt-get install google-cloud-sdk
+* Run: sudo apt install google-cloud-sdk inotify-tools scaleft-client-tools -y
 
 Create systemd script for startup
 
