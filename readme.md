@@ -63,7 +63,7 @@ You will need to create an IAM User who has access to Cloud Storage. You can the
 
 * GCP_BUCKET - GCP Bucket Name
 * GCP_EMAIL - Extracted from Credential JSON
-* GCP_PRIVATE - Extracted from Credential JSON (Certificate)
+* GCP_PRIVATE - Extracted from Credential JSON (Certificate) - This must contain the full certificate contents, including the BEGIN and ENG seqeuence
 * GCP_PROJECT_ID - GCP Project Name
 
 ### Required
