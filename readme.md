@@ -18,6 +18,8 @@ GCP bucket & Associated AuthN
 
 ### 1. Create Okta application
 
+Please note: you will require a custom authorization server within Okta for this application to work.
+
 Guide: https://developer.okta.com/docs/guides/sign-into-web-app/nodeexpress/create-okta-application/
 
 Step by Step:
