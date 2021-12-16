@@ -8,6 +8,7 @@ const CastModel = require('./models/cast')
 const storage = require('./storage')
 const fs = require('fs')
 const fsp = require('fs/promises')
+const {SSMClient,AddTagsToResourceCommand} = require("@aws-sdk/client-ssm")
 
 const PORT = process.env.PORT || "3000";
 
@@ -83,6 +84,7 @@ app.use(async function (req,res,next){
 })
 
 const OktaJwtVerifier = require('@okta/jwt-verifier');
+const { default: Axios } = require('axios');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   issuer: process.env.OKTA_OAUTH2_ISSUER,
@@ -165,7 +167,10 @@ function ensureAuthenticated(){
 
 
 const router = express.Router();
-router.get("/",ensureAuthenticated(), async (req, res, next) => {
+router.get("/",ensureAuthenticated(),(req, res, next) => {
+  res.redirect("/session-replay")
+})
+router.get("/session-replay",ensureAuthenticated(), async (req, res, next) => {
     res.render("index",{
         user: req.userContext.userinfo,
         files: await storage.listFiles(),
@@ -173,8 +178,71 @@ router.get("/",ensureAuthenticated(), async (req, res, next) => {
         icon: 'ssh'
        });
 });
+router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => {
+  //get a token for the ASA api
+  var bearerResp = await Axios({
+    method:'post',
+    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/service_token',
+    data:{
+      "key_id": process.env.ASA_ID,
+      "key_secret": process.env.ASA_SECRET
+    }
+  })
 
-router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
+  //get list of servers which has a managed == false
+  var serverList = await Axios({
+    method:'get',
+    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/'+process.env.ASA_PROJECT_NAME+'/servers?managed=false',
+    headers:{
+      "Authorization": "Bearer "+bearerResp.data.bearer_token
+    }
+  })
+  
+  res.render("agent-management",{
+      user: req.userContext.userinfo,
+      servers: serverList.data.list,
+      pageTitle: "Agent Management",
+      icon: 'user-secret',
+      msg: req.session.msg
+     });
+  req.session.msg = null
+});
+
+router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, next) => {
+  req.session.msg= "Agent is being deployed, please wait"
+
+  console.log("doing things to "+req.query.instance)
+  //TODO fix this
+  /*
+  const ssm = new SSMClient({
+    accessKeyId:process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    correctClockSkew: true,
+    region: process.env.AWS_REGION
+  })
+  const params = {
+    DocumentName: "AWS-RunShellScript",
+    InstanceIds: req.query.instance,
+    Parameters: {
+      commands: "df -h"
+      }
+    }
+  const command = new AddTagsToResourceCommand(params)
+
+  try{
+    const data = await ssm.send(command)
+    console.log("we're done?")
+  }
+  catch(err){
+    console.log("we're broke")
+    console.log(err)
+  }
+  */
+
+  res.redirect('/agent-management')
+})
+
+router.get("/session-replay/playback",ensureAuthenticated(), async (req, res, next) => {
   console.log("show me: "+req.query.recording)
 
   try{
@@ -193,7 +261,7 @@ router.get("/playback",ensureAuthenticated(), async (req, res, next) => {
        });
 });
 
-router.get("/casts/:session/:id",ensureAuthenticated(), async (req, res, next) => {
+router.get("/session-replay/casts/:session/:id",ensureAuthenticated(), async (req, res, next) => {
   console.log("files "+req.params.id)
   res.download("casts/"+req.params.session+"/"+req.params.id);
 })

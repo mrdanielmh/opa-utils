@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <br>
   <div class="row">
-    <a href="/" class="btn btn-primary">Refresh</a>
+    <a href="/agent-management" class="btn btn-primary">Refresh</a>
   </div>
 <br>
   <style>
@@ -24,35 +24,44 @@
   tr:nth-child(even) {background-color: #f2f2f2;}
   </style>
 
+  {{#if msg}}
+  <i class="fas fa-info-circle"></i>{{msg}}
+  {{/if}}
+
   <table>
 
   <!-- Below are the column headers -->
   <thead>
   <tr>
-  <th>Date & Time</th>
-  <th>Username</th>
-  <th>Replay</th>
+  <th>Hostname</th>
+  <th>OS</th>
+  <th>AWS Instance ID</th>
+  <th>Registered</th>
+  <th></th>
   </tr>
   </thead>
 
   <tbody>
   <!-- This "each" is the beginning of the loop -->
-  {{#each files}}
+  {{#each servers}}
 
   <!-- Below is a table row and cells, with the question references (starting AFTER the rows container)-->
   <tr>
   <td>
-    <i class="fas fa-calendar-week"></i>&nbsp{{this.date}} {{this.time}}
+    {{this.hostname}}
+  </td>
+    <td>
+    {{this.os}}
   </td>
   <td>
-    <i class="fas fa-user"></i>&nbsp{{this.username}}
+    {{this.instance_id}}
+  </td>
+    <td>
+    {{this.registered_at}}
   </td>
   <td>
-  {{#each this.storage}}
-    <i class="fas fa-video"></i> Replay From:<a href="/session-replay/playback?recording={{../filename}}&storage={{this}}">
-      {{this}}
+    <a href="/agent-management/deploy?instance={{this.instance_id}}"><i class="fas fa-parachute-box"></i> Deploy Agent:
     </a>
-      {{/each}}
   </td>
 
   </tr>

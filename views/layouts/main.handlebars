@@ -74,14 +74,19 @@
   <div class="side-nav">
     <div class="side-nav--header">
       <a class="side-nav--header--link active" href="/"><img alt="Advanced Server Access" src="https://assets.scaleft.net/img/asa-logo-blue.svg">
-      <h3>ASA Session<br>
-      Replay Tool</h3></a>
+      <h3>ASA Utils<br>
+      </h3></a>
     </div>
     <div class="side-nav--content">
       <span class="side-nav--content--header">Session Replay</span>
-      <a class="nav-item" href="#">
+      <a class="nav-item" href="/session-replay">
         <i class="fas fa-terminal"></i>
     SSH Recordings
+  </a>
+      <span class="side-nav--content--header">Agent Management</span>
+      <a class="nav-item" href="/agent-management">
+        <i class="fas fa-user-secret"></i>
+     Agent Management
   </a>
 <br>
       <a class="nav-item" href="/logout">
@@ -129,6 +134,9 @@
             {{/ifCond}}
             {{#ifCond icon '===' 'ssh'}}
             <i class="fas fa-terminal"></i>
+            {{/ifCond}}
+            {{#ifCond icon '===' 'user-secret'}}
+            <i class="fas fa-user-secret"></i>
             {{/ifCond}}
 
           &nbsp;<span> {{pageTitle}}</span></h2>
