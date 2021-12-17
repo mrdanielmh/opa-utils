@@ -4,6 +4,9 @@
     <a href="/agent-management" class="btn btn-primary">Refresh</a>
   </div>
 <br>
+ {{#if msg}}
+<p id="rcorners1"><i class="fas fa-info-circle"></i>{{msg}}</p>
+  {{/if}}
   <style>
   table {
     border-collapse: collapse;
@@ -35,12 +38,6 @@
   border-color: #114daf;
 }
 </style>
-
-  {{#if msg}}
-<p id="rcorners1"><i class="fas fa-info-circle"></i>{{msg}}</p>
-  {{/if}}
-
-  
 
   <table>
 
