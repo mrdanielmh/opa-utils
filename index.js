@@ -210,14 +210,12 @@ router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => 
 });
 
 router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, next) => {
-  req.session.msg= " Agent is being deployed, please wait"
+  req.session.msg= " Agent is being deployed, please wait..."
   console.log("doing things to "+req.query.instance)
   //TODO fix this
 
     AWS.config.update({region:'us-west-2'});
-  
     var ssm = new AWS.SSM();
-  
     var params = {
     DocumentName: 'AWS-RunShellScript', /* required */
     InstanceIds: [req.query.instance],
@@ -243,14 +241,7 @@ router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, ne
     console.log(data);
     }            // successful response
   });
-  
-  
-    const response = {
-      statusCode: 200,
-      ssm: ssm
-    };
-  
-    return response;
+
 
 
 /* DMH TEST
