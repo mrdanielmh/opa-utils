@@ -34,9 +34,8 @@
   <thead>
   <tr>
   <th>Hostname</th>
-  <th>OS</th>
+  <th>Operating System</th>
   <th>AWS Instance ID</th>
-  <th>Registered</th>
   <th></th>
   </tr>
   </thead>
@@ -56,11 +55,8 @@
   <td>
     {{this.instance_id}}
   </td>
-    <td>
-    {{this.registered_at}}
-  </td>
   <td>
-    <a href="/agent-management/deploy?instance={{this.instance_id}}"><i class="fas fa-parachute-box"></i> Deploy Agent:
+    <a href="/agent-management/deploy?instance={{this.instance_id}}">Deploy Agent<i class="fas fa-parachute-box"></i>
     </a>
   </td>
 
