@@ -8,7 +8,8 @@ const CastModel = require('./models/cast')
 const storage = require('./storage')
 const fs = require('fs')
 const fsp = require('fs/promises')
-const {SSMClient,AddTagsToResourceCommand} = require("@aws-sdk/client-ssm")
+const {SSMClient} = require("@aws-sdk/client-ssm")
+const AWS = require('aws-sdk')
 
 const PORT = process.env.PORT || "3000";
 
@@ -209,10 +210,74 @@ router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => 
 });
 
 router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, next) => {
-  req.session.msg= "Agent is being deployed, please wait"
-
+  req.session.msg= " Agent is being deployed, please wait"
   console.log("doing things to "+req.query.instance)
   //TODO fix this
+
+    AWS.config.update({region:'us-west-2'});
+  
+    var ssm = new AWS.SSM();
+  
+    var params = {
+    DocumentName: 'AWS-RunShellScript', /* required */
+    InstanceIds: [req.query.instance],
+    Parameters: {
+      'commands': [
+        'sudo apt-get install gpg',
+        'curl -fsSL https://dist.scaleft.com/pki/scaleft_deb_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/scaleft-archive-keyring.gpg > /dev/null',
+        'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/scaleft-archive-keyring.gpg] http://pkg.scaleft.com/deb linux main" | sudo tee -a /etc/apt/sources.list.d/scaleft.list > /dev/null',
+        'sudo apt-get update',
+        'sudo apt-get install scaleft-server-tools'
+        /* more items */
+      ],
+      /* '<ParameterName>': ... */
+    }
+  };
+  ssm.sendCommand(params, function(err, data) {
+    if (err) {
+      console.log("ERROR!");
+      console.log(err, err.stack); // an error occurred
+    }
+    else {
+    console.log("SUCCESS!");
+    console.log(data);
+    }            // successful response
+  });
+  
+  
+    const response = {
+      statusCode: 200,
+      ssm: ssm
+    };
+  
+    return response;
+
+
+/* DMH TEST
+    const client = new SSMClient({ 
+      accessKeyId:process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      correctClockSkew: true,
+      region: process.env.AWS_REGION
+    });
+    const params = {
+        InstanceIds: req.query.instance,
+        DocumentName: 'AWS-RunShellScript',
+        Parameters: {
+            commands : ['df -h']
+        },
+      };
+    try {
+        const data = await client.send(params);
+        console.log("we're done?")
+        // process data.
+    } catch (error) {
+        // error handling.
+        console.log("we're broke")
+        console.log(error)
+    }
+DMH TEST END
+    */ 
   /*
   const ssm = new SSMClient({
     accessKeyId:process.env.AWS_ACCESS_KEY_ID,
