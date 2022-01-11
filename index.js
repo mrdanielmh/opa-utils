@@ -171,6 +171,7 @@ const router = express.Router();
 router.get("/",ensureAuthenticated(),(req, res, next) => {
   res.redirect("/session-replay")
 })
+
 router.get("/session-replay",ensureAuthenticated(), async (req, res, next) => {
     res.render("index",{
         user: req.userContext.userinfo,
@@ -179,29 +180,38 @@ router.get("/session-replay",ensureAuthenticated(), async (req, res, next) => {
         icon: 'ssh'
        });
 });
-router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => {
-  //get a token for the ASA api
-  var bearerResp = await Axios({
-    method:'post',
-    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/service_token',
-    data:{
-      "key_id": process.env.ASA_ID,
-      "key_secret": process.env.ASA_SECRET
-    }
-  })
 
-  //get list of servers which has a managed == false
-  var serverList = await Axios({
-    method:'get',
-    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/'+process.env.ASA_PROJECT_NAME+'/servers?managed=false',
-    headers:{
-      "Authorization": "Bearer "+bearerResp.data.bearer_token
-    }
-  })
+router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => {
+
+  var serverList;
+  try{
+      //get a token for the ASA api
+      var bearerResp = await Axios({
+        method:'post',
+        url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/service_token',
+        data:{
+          "key_id": process.env.ASA_ID,
+          "key_secret": process.env.ASA_SECRET
+        }
+      })
+
+      //get list of servers which has a managed == false
+      var serverListResp = await Axios({
+        method:'get',
+        url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/'+process.env.ASA_PROJECT_NAME+'/servers?managed=false',
+        headers:{
+          "Authorization": "Bearer "+bearerResp.data.bearer_token
+        }
+      }) 
+      serverList = serverListResp.data.list 
+  }
+  catch(err){
+    console.log(err)
+  }
   
   res.render("agent-management",{
       user: req.userContext.userinfo,
-      servers: serverList.data.list,
+      servers: serverList,
       pageTitle: "Agent Management",
       icon: 'user-secret',
       msg: req.session.msg
