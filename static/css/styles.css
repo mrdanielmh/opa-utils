@@ -7,3 +7,11 @@
 a {
     color: #1662dd
 }
+
+.msg{
+    margin-top: 10px;
+}
+
+.msg i {
+    padding-top: 4px;
+}
