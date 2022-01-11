@@ -5,9 +5,10 @@
   </div>
 <br>
  {{#if msg}}
-<p id="rcorners1"><i class="fas fa-info-circle"></i>{{msg}}</p>
+<p id="rcorners1"><i class="fas fa-info-circle"></i>&nbsp;{{msg}}</p>
   {{/if}}
   <style>
+    
   table {
     border-collapse: collapse;
     width: 100%;
@@ -34,8 +35,8 @@
   width: 340px;
   height: 65px;  
   color: #fff;
-  background-color: #1353ba;
-  border-color: #114daf;
+  background-color: #1662dd;
+  border-color: #1662dd;
 }
 </style>
 
@@ -67,7 +68,7 @@
     {{this.instance_id}}
   </td>
   <td>
-    <a href="/agent-management/deploy?instance={{this.instance_id}}">Deploy Agent <i class="fas fa-parachute-box"></i>
+    <a href="/agent-management/deploy?instance={{this.instance_id}}&os={{this.os}}">Deploy Agent <i class="fas fa-parachute-box"></i>
     </a>
   </td>
 

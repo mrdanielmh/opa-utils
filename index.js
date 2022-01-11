@@ -220,27 +220,35 @@ router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => 
 });
 
 router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, next) => {
-  req.session.msg= " Agent is being deployed, please wait..."
+  
   console.log("doing things to "+req.query.instance)
-  //TODO fix this
+  AWS.config.update({region:'us-west-2'});
+  var ssm = new AWS.SSM();
 
-    AWS.config.update({region:'us-west-2'});
-    var ssm = new AWS.SSM();
-    var params = {
-    DocumentName: 'AWS-RunShellScript', /* required */
-    InstanceIds: [req.query.instance],
-    Parameters: {
-      'commands': [
-        'sudo apt-get install gpg',
-        'curl -fsSL https://dist.scaleft.com/pki/scaleft_deb_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/scaleft-archive-keyring.gpg > /dev/null',
-        'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/scaleft-archive-keyring.gpg] http://pkg.scaleft.com/deb linux main" | sudo tee -a /etc/apt/sources.list.d/scaleft.list > /dev/null',
-        'sudo apt-get update',
-        'sudo apt-get install scaleft-server-tools'
-        /* more items */
-      ],
-      /* '<ParameterName>': ... */
+  //TODO this logic will improve once underlying bug in OS detection is addressed
+  if(req.query.os != "windows"){
+      var params = {
+      DocumentName: 'AWS-RunShellScript', /* required */
+      InstanceIds: [req.query.instance],
+      Parameters: {
+        'commands': [
+          'sudo apt-get install gpg',
+          'curl -fsSL https://dist.scaleft.com/pki/scaleft_deb_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/scaleft-archive-keyring.gpg > /dev/null',
+          'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/scaleft-archive-keyring.gpg] http://pkg.scaleft.com/deb linux main" | sudo tee -a /etc/apt/sources.list.d/scaleft.list > /dev/null',
+          'sudo apt-get update',
+          'sudo apt-get install scaleft-server-tools'
+          /* more items */
+        ],
+        /* '<ParameterName>': ... */
+      }
     }
-  };
+    req.session.msg= "Agent is being deployed, please wait..."
+  }
+  else {
+    //TODO DH to fix
+    req.session.msg= "Windows is not supported :("
+  }
+
   ssm.sendCommand(params, function(err, data) {
     if (err) {
       console.log("ERROR!");
@@ -251,59 +259,6 @@ router.get("/agent-management/deploy",ensureAuthenticated(), async (req, res, ne
     console.log(data);
     }            // successful response
   });
-
-
-
-/* DMH TEST
-    const client = new SSMClient({ 
-      accessKeyId:process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      correctClockSkew: true,
-      region: process.env.AWS_REGION
-    });
-    const params = {
-        InstanceIds: req.query.instance,
-        DocumentName: 'AWS-RunShellScript',
-        Parameters: {
-            commands : ['df -h']
-        },
-      };
-    try {
-        const data = await client.send(params);
-        console.log("we're done?")
-        // process data.
-    } catch (error) {
-        // error handling.
-        console.log("we're broke")
-        console.log(error)
-    }
-DMH TEST END
-    */ 
-  /*
-  const ssm = new SSMClient({
-    accessKeyId:process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    correctClockSkew: true,
-    region: process.env.AWS_REGION
-  })
-  const params = {
-    DocumentName: "AWS-RunShellScript",
-    InstanceIds: req.query.instance,
-    Parameters: {
-      commands: "df -h"
-      }
-    }
-  const command = new AddTagsToResourceCommand(params)
-
-  try{
-    const data = await ssm.send(command)
-    console.log("we're done?")
-  }
-  catch(err){
-    console.log("we're broke")
-    console.log(err)
-  }
-  */
 
   res.redirect('/agent-management')
 })
