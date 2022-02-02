@@ -181,6 +181,157 @@ router.get("/session-replay",ensureAuthenticated(), async (req, res, next) => {
        });
 });
 
+router.get("/network-map",ensureAuthenticated(), async (req, res, next) => {
+//TODO call axios for server data determines structure and populate to serverinfo in structure 
+/*{
+  id: "unique",
+  name: "display",
+  data: {},
+  children: 
+  [//nested elements]
+}*/
+var serverinfo = {
+  "id": "client",
+  "name": "client",
+  "data": {},
+  "children": []
+}
+
+try{
+  //get a token for the ASA api
+  var bearerResp = await Axios({
+    method:'post',
+    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/service_token',
+    data:{
+      "key_id": process.env.ASA_ID,
+      "key_secret": process.env.ASA_SECRET
+    }
+  })
+
+  //list of projects
+  var projectListResp = await Axios({
+    method:'get',
+    url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/',
+    headers:{
+      "Authorization": "Bearer "+bearerResp.data.bearer_token
+    }
+  }) 
+  projectList = projectListResp.data.list 
+  //console.log(projectListResp.data.list.length)
+
+  const projectsWithBastions = projectListResp.data.list.filter(project => project.gateway_selector === null);
+  var bastions = new Map()
+  for (let index = 0; index < projectsWithBastions.length; index++) {
+    const element = projectsWithBastions[index];
+    var projectServersResp = await Axios({
+      method:'get',
+      url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/'+element.name+'/servers/',
+      headers:{
+        "Authorization": "Bearer "+bearerResp.data.bearer_token
+      }
+    })
+    var servers = projectServersResp.data.list
+    for (let index = 0; index < servers.length; index++) {
+      const element = servers[index];
+      console.log("BASTION")
+      console.log(element)
+      if(element.bastion === null){
+        if(!bastions.has(element.hostname)){
+          var obj = {
+            "id": element.id,
+            "name":  element.hostname,
+            "data": {},
+            "children": []
+          }  
+          bastions.set(element.hostname,obj)
+        }
+        //skip adding this server as it already has a entry
+        //TODO could update tehe id
+      } else {
+        if(!bastions.has(element.bastion)){
+          var obj = {
+            "id": ""+Math.floor(Math.random()*1000),
+            "name":  element.bastion,
+            "data": {},
+            "children": [{
+              "id": element.id,
+              "name":  element.hostname,
+              "data": {},
+              "children": []
+            }  ]
+          }  
+          bastions.set(element.hostname,obj)
+        } else{
+          var child = {
+            "id": element.id,
+            "name":  element.hostname,
+            "data": {},
+            "children": []
+          }  
+          var tmp = bastions.get(element.bastion)
+          tmp.children.push(child)
+          bastions.set(element.bastion,tmp)
+        }
+      }
+    }
+  }
+
+  const projectsWithGateways = projectListResp.data.list.filter(project => project.gateway_selector != null);
+  var gateways = new Map()
+  for (let index = 0; index < projectsWithGateways.length; index++) {
+    const element = projectsWithGateways[index];
+
+    var gatewayProjectServersResp = await Axios({
+      method:'get',
+      url:'https://app.scaleft.com/v1/teams/'+process.env.ASA_TEAM+'/projects/'+element.name+'/servers/',
+      headers:{
+        "Authorization": "Bearer "+bearerResp.data.bearer_token
+      }
+    }) 
+
+    var gatewayProjectServers = gatewayProjectServersResp.data.list 
+    var children = []
+    gatewayProjectServers.forEach(element => {
+      var obj = {
+        "id": element.id,
+        "name":  element.hostname,
+        "data": {},
+        "children": []
+      }     
+      children.push(obj)
+    });
+
+    if(gateways.has(element.gateway_selector)){
+      var tmp = gateways.get(element.gateway_selector)
+      tmp.children = tmp.children.concat(children)
+    } else{
+      var obj = {
+        "id": ""+Math.floor(Math.random()*1000),
+        "name": element.gateway_selector,
+        "data": {},
+        "children": children
+      }
+      gateways.set(element.gateway_selector,obj)
+    }
+  }
+  serverinfo.children = [...gateways.values()].concat([...bastions.values()])
+//do something here to work out which projects have a gateway associated
+//do something here to then list servers in projects that have no gateway associated
+//do something here to list servers contained bastion
+
+}
+catch(err){
+  console.log(err)
+}
+console.log(serverinfo)
+res.render("network-map",{
+  user: req.userContext.userinfo,
+        pageTitle: "Network Map",
+        serverinfo: JSON.stringify(serverinfo),
+        icon: 'server'
+})
+})
+
 router.get("/agent-management",ensureAuthenticated(), async (req, res, next) => {
 
   var serverList;
