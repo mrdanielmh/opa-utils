@@ -12,7 +12,7 @@ Dynamic Network Map
 
 # Advanced Server Access - Session Capture Replay Tool
 
-This project allows you to replay ASA Session Captures from a front end.
+This feature allows you to replay ASA Session Captures from a front end.
 
 When launching the application the user will be redirected to Okta for authentication. Once authenticated the user will be shown a list of available sessions to replay. The application currently supports .cast files that exist within an AWS S3 or GCP bucket.
 
