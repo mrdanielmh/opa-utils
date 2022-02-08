@@ -1,3 +1,15 @@
+# Advanced Server Access - Utilities
+
+This project is an continually evolving set of features to work alongside Okta Advanced Server Access. Current features;
+
+Session Replay for SSH
+Agent Deployment for AWS (Supported: Ubuntu 20.04)
+Dynamic Network Map
+
+# Agent Deployment - WIP
+
+# Dynamic Network Map - WIP
+
 # Advanced Server Access - Session Capture Replay Tool
 
 This project allows you to replay ASA Session Captures from a front end.
@@ -86,7 +98,7 @@ You should now be able to open your Heroku application and log in using your Okt
 
 We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your AWS S3 Bucket. You will need to mount your AWS S3 Bucket to your file system.
 
-* Please copy the aws_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/
+* Please copy the aws_convertlogs.sh to your Advanced Server Access Gateway and place it into: /etc/sft/ - Change bucketname to be your AWS S3 Bucketname
 * Run: sudo chmod +x /etc/sft/aws_convertlogs.sh
 * Run: sudo apt-get update
 * Run: sudo apt install s3fs awscli inotify-tools scaleft-client-tools -y
