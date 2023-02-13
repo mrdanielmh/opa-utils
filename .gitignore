@@ -1,5 +1,0 @@
-**/casts
-.env
-.DS_Store
-**/node_modules
-oasa-gcp-*.json
