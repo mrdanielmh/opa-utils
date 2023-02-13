@@ -88,6 +88,7 @@ In order for the Sesssion Replay Tool to work you require a functional ASA Gatew
 * Find Software and click 'Edit'
 * Scroll Down to 'Environment Properties' and create the following variables:
 
+```
 OKTA_OAUTH2_ISSUER:             https://okta-url/oauth2/default - Issuer URL from Okta Tenant
 OKTA_OAUTH2_CLIENT_ID_WEB:      Client ID
 OKTA_OAUTH2_CLIENT_SECRET_WEB:  Client Secret
@@ -107,6 +108,7 @@ GCP_PROJECT_ID:                 Leave Blank
 GCP_EMAIL:                      Leave Blank
 GCP_PRIVATE:                    Leave Blank
 GCP_BUCKET:                     Leave Blank
+```
 
 * Click 'Apply'
 
@@ -116,7 +118,7 @@ We will use a script that will detect when a new file is written to /var/log/sft
 
 * Create the following shell script called `aws_convertlogs.sh` in `/etc/sft`
 
-`
+```
 #!/bin/bash -x
 #Watch for new session logs and convert them to asciinema (ssh) and mkv (rdp).
 WATCHPATH="/var/log/sft/sessions"
@@ -143,7 +145,7 @@ while read dirpath action file; do
             echo "skipping unknown file type \$file"
     fi
 done
-`
+```
 
 * Run `sudo chmod +x /etc/sft/aws_convertlogs.sh`
 * Run `sudo apt-get update`
@@ -157,7 +159,7 @@ done
 
 * Create the following service called `aws_convertlogs.service` to `/etc/systemd/system/aws_convertlogs.service`
 
-`
+```
 [Unit]
 Description=Watch for new ASA session logs and convert then.
 
@@ -168,7 +170,7 @@ RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
-`
+```
 
 * Run `sudo systemctl enable aws_convertlogs.service`
 * Run `sudo s3fs -o allow_other,passwd_file=/etc/.s3fs-creds,endpoint={bucketregion},url="https://s3-{bucketregion}.amazonaws.com" {bucketname} /mnt/aws/{bucketname}` - where {bucketname} is the name of your S3 bucket and {bucketregion} is the region of your S3 bucket
@@ -177,11 +179,11 @@ WantedBy=multi-user.target
 
 * Update `/etc/sft/sft-gatewayd.yaml` to include the following:
 
-`
+```
 LogFileNameFormats:
   SSHRecording: "{{.Protocol}}~{{.StartTime}}~{{.TeamName}}~{{.ProjectName}}~{{.ServerName}}~{{.Username}}~"
   RDPRecording: "{{.Protocol}}~{{.StartTime}}~{{.TeamName}}~{{.ProjectName}}~{{.ServerName}}~{{.Username}}~"
-`
+```
 
 * Run `sudo systemctl restart sft-gatewayd`
 
