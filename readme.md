@@ -92,7 +92,7 @@ In order for the Sesssion Replay Tool to work you require a functional ASA Gatew
 OKTA_OAUTH2_ISSUER:             https://okta-url/oauth2/default - Issuer URL from Okta Tenant
 OKTA_OAUTH2_CLIENT_ID_WEB:      Client ID
 OKTA_OAUTH2_CLIENT_SECRET_WEB:  Client Secret
-SESSION_SECRET:                 wertyuikmnbv
+SESSION_SECRET:                 wertyuikmnbv (Random Value)
 SCOPES:                         openid profile email
 BASE_URI:                       Paste Elastic Beanstalk Environment URL (Include http://) and remove any trailing slashes
 TOKEN_AUD:                      api://default
