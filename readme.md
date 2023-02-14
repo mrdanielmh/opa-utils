@@ -94,7 +94,7 @@ OKTA_OAUTH2_CLIENT_ID_WEB:      Client ID
 OKTA_OAUTH2_CLIENT_SECRET_WEB:  Client Secret
 SESSION_SECRET:                 wertyuikmnbv
 SCOPES:                         openid profile email
-BASE_URI:                       Paste Elastic Beanstalk Environment URL (Include http://)
+BASE_URI:                       Paste Elastic Beanstalk Environment URL (Include http://) and remove any trailing slashes
 TOKEN_AUD:                      api://default
 AWS_ACCESS_KEY_ID:              AWS Access Key
 AWS_SECRET_ACCESS_KEY:          AWS Secret Key
