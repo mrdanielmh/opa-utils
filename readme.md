@@ -4,6 +4,8 @@ This project is an continually evolving set of features to work alongside Okta A
 
 Please note: this is an open source solution developed on top of the Okta solution. It is not supported by Okta or part of the Okta solution.
 
+https://github.com/mrdanielmh/opa-utils/blob/master/session-replay.mp4
+
 Current features;
 
 * Session Replay Tool for SSH & RDP
