@@ -205,4 +205,5 @@ Huge thanks to Andy March and Kyle Robinson who helped bring this to life!
 
 * Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
 * Kyle Robinson - Principal Security Specialist, Okta
+* Shad Lutz - Infrastructure Specialist, Okta
 
