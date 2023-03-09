@@ -129,20 +129,20 @@ sudo sft session-logs export --insecure --format asciinema --output "$DESTPATH"/
 process-logs-rdp(){
 sudo sft session-logs export --insecure --format mkv --output "$DESTPATH"/"$file".mkv "$WATCHPATH"/"$file"
 }
-inotifywait -m "\$WATCHPATH" -e create 2>/dev/null |
+inotifywait -m "$WATCHPATH" -e create 2>/dev/null |
 while read dirpath action file; do
-    if [[ \$file == *ssh~* ]]; then
+    if [[ $file == *ssh~* ]]; then
             echo "ssh session capture found"
             echo "starting conversion process"
             process-logs-ssh
             echo "ssh session converted"
-    elif [[ \$file == *rdp~* ]]; then
+    elif [[ $file == *rdp~* ]]; then
             echo "rdp session capture found"
             echo" starting conversion process"
             process-logs-rdp
             echo "rdp session converted"
     else
-            echo "skipping unknown file type \$file"
+            echo "skipping unknown file type $file"
     fi
 done
 ```
