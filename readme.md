@@ -179,6 +179,16 @@ GCP_BUCKET:                     Leave Blank
 
 We will use a script that will detect when a new file is written to /var/log/sft/sessions and then convert it and upload it to your S3 Bucket.
 
+### Assign IAM Role to Gateway
+
+* Open EC2 Dashboard
+* Select Gateway Instance
+* Click Actions
+* Click Security
+* Click Modify IAM Role
+* Select your IAM Role
+* Click Update IAM Role
+
 * Create the following shell script called `aws_convertlogs.sh` in `/etc/sft`
 
 ```
