@@ -16,7 +16,11 @@ This feature allows you to replay ASA Session Captures from a WebApp authenticat
 
 When launching the application the user will be redirected to Okta for authentication. Once authenticated the user will be shown a list of available sessions to replay. The application currently supports .cast and .mkv files that exist within an AWS S3.
 
+## Overview Slide
+
 <img width="814" alt="session-replay-overview" src="https://user-images.githubusercontent.com/57440223/224361443-9b7f1197-27fd-4631-85cf-9d222be500ac.png">
+
+## Video
 
 https://user-images.githubusercontent.com/57440223/224005152-a06d7199-f623-467b-8f82-79fa5e27fec2.mp4
 
