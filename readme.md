@@ -52,6 +52,67 @@ In order for the Sesssion Replay Tool to work you require a functional ASA Gatew
 
 ### Amazon Web Services 
 
+#### IAM
+
+* Navigate to the IAM dashboard
+* Click Roles
+* Click Create Role
+* Select AWS Service
+* Select EC2
+* Click Next
+* Click Create Policy
+* Click JSON
+* Paste the following:
+
+```
+{
+    "Statement": [
+        {
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:DeleteObject",
+                "s3:ListAllMyBuckets",
+                "s3:createBucket",
+                "s3:deleteBucket",
+                "s3-object-lambda:*",
+                "s3:GetBucketLocation"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:AddRoleToInstanceProfile",
+                "iam:PassRole",
+                "iam:AttachRolePolicy",
+                "iam:CreateRole",
+                "iam:DeleteInstanceProfile"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ],
+    "Version": "2012-10-17"
+}
+```
+* Click Next: Tags
+* Click Next: Review
+* Enter a Policy Name (eg; opa-utils-policy)
+* Click Create Policy
+* Go back to Create Role tab
+* Click Refresh Button next to Create Policy
+* Search for newly created role
+* Select Role
+* Search for 'AdministratorAccess-AWSElasticBeanstalk'
+* Select Role
+* Click Next
+* Enter a Role Name (eg; opa-utils-role)
+* Click Create Role
+
 #### S3
 
 * Create OPA Utils S3 Bucket for storing converted replay files
@@ -152,8 +213,6 @@ done
 * Run `sudo chmod +x /etc/sft/aws_convertlogs.sh`
 * Run `sudo apt-get update`
 * Run `sudo apt install s3fs awscli inotify-tools scaleft-client-tools -y`
-* Run `echo "AWS_ACCESS_KEY:AWS_SECRET_ACCESS_KEY" >> /etc/.s3fs-creds` - Where AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are the values from an IAM User with Full S3 Admin Access
-* Run `sudo chmod 600 /etc/.s3fs-creds`
 * Run `sudo mkdir -p /mnt/aws/{bucketname}` - where {bucketname} is the name of your S3 bucket
 * Run `sudo chmod 777 /mnt/aws/{bucketname}` - where {bucketname} is the name of your S3 bucket
 * Run `sudo vi /etc/fuse.conf`
@@ -175,9 +234,9 @@ WantedBy=multi-user.target
 ```
 
 * Run `sudo systemctl enable aws_convertlogs.service`
-* Run `sudo s3fs -o allow_other,passwd_file=/etc/.s3fs-creds,endpoint={bucketregion},url="https://s3-{bucketregion}.amazonaws.com" {bucketname} /mnt/aws/{bucketname}` - where {bucketname} is the name of your S3 bucket and {bucketregion} is the region of your S3 bucket
+* Run `sudo s3fs -o allow_other,iam_role={name of iam role},endpoint={bucketregion},url="https://s3-{bucketregion}.amazonaws.com" {bucketname} /mnt/aws/{bucketname}` - where {bucketname} is the name of your S3 bucket and {bucketregion} is the region of your S3 bucket
 * Run `df -h` - This should show your new mounted filesystem
-* Run `echo "s3fs#{bucketname} /mnt/aws/{bucketname} fuse _netdev,allow_other,passwd_file=/etc/.s3fs-creds,endpoint={bucketregion},url="https://s3-{bucketregion}.amazonaws.com" 0 0" >> /etc/fstab` - where {bucketname} is the name of your S3 bucket and {bucketregion} is the region of your S3 bucket
+* Run `echo "s3fs#{bucketname} /mnt/aws/{bucketname} fuse _netdev,allow_other,iam_role={name of iam role},endpoint={bucketregion},url="https://s3-{bucketregion}.amazonaws.com" 0 0" >> /etc/fstab` - where {bucketname} is the name of your S3 bucket and {bucketregion} is the region of your S3 bucket
 
 * Update `/etc/sft/sft-gatewayd.yaml` to include the following:
 
@@ -207,5 +266,5 @@ Huge thanks to Andy March and Kyle Robinson who helped bring this to life!
 
 * Andy March - Senior Platform Specialist, Okta (https://github.com/andymarch)
 * Kyle Robinson - Principal Security Specialist, Okta
-* Shad Lutz - Infrastructure Specialist, Okta
+* Shad Lutz - Infrastructure Specialist, Okta (https://github.com/shad-at-okta)
 
